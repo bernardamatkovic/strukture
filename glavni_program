@@ -120,7 +120,7 @@ void ispis(red a,int n) {
      }
 
      
-void sort(elem p[],int n) {
+void prioritet(elem p[],int n) {
      for(int i=n-1;i>0;i--)
              for(int j=0;j<i;j++) 
                      if(p[j].c>p[i].c) {
@@ -144,11 +144,11 @@ void brzi_salter(){
          else EnQueueQ(k,salter);     
          }
      
-     sort(pom,z);
+     prioritet(pom,z);
      for(int i=0;i<z;i++) EnQueueQ(pom[i],brzi);
      
      cout<<"Brzi salter: "<<endl;;
-     if(IsEmptyQ(brzi)) cout<<"Nema nikoga za brzi salter."<<endl;
+     if(IsEmptyQ(brzi)) cout<<"Nema nikoga za brzom salteru."<<endl;
      else ispis(brzi,racuni);
              
      InitQ(brzi);
