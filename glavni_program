@@ -1,0 +1,216 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+//#include "red_polje.h"
+#include "red_pokazivac.h"
+using namespace std;
+
+
+que q,salter,brzi,novi;
+int n,racuni=0;
+
+void generiraj (){
+     cout<<"Unesite N (broj korisnika koji ce se generirati): "<<endl;
+     do{
+     cin>>n;
+     }while(n<0);
+     
+     for (int i=0; i<n; i++){
+     elem k;
+     k.a=rand()%401+100;
+     k.b=rand()%401+100;
+     k.c=rand()%6+1;
+     k.d=rand()%4+1;
+     
+     if (k.c==6) k.d==3;
+     
+     if (k.d==3) racuni++;
+     
+     switch(k.c){
+                 case 1: cout<<"umirovljenik"<<endl; 
+                 break;
+                 case 2: cout<<"invalid"<<endl;
+                 break;
+                 case 3: cout<<"trudnica"<<endl;
+                 break;
+                 case 4: cout<<"VIP klijent"<<endl;
+                 break;
+                 case 5: cout<<"ostali klijenti"<<endl;
+                 break;
+                 case 6: cout<<"nije klijent"<<endl;
+                 break;
+                 }
+    EnQueueQ(k, q);
+     }
+     cout<<endl<<endl;
+}
+
+void dodavanje_zapisa (){
+     elem k;
+     while(IsEmptyQ(q)==false){
+         k=FrontQ(q);
+         cout<<"Ime i prezime klijenta:"<<endl;
+         cin.ignore();
+         cin.getline(k.ime,20), cin.getline(k.prezime, 20);
+         cout<<"Datum rodenja: ", cin>>k.datum;
+         cout<<"Stanje tekuceg racuna (HRK): ", cin>>k.tekuci;
+         cout<<"Stanje deviznog racuna (EUR): ", cin>>k.devizni;
+         DeQueueQ(q);
+         EnQueueQ(k, salter);
+    }
+     
+     while(IsEmptyQ(salter)==false){
+		 k=FrontQ(salter);
+		 DeQueueQ(salter);
+		 EnQueueQ(k, q);
+		 if(k.devizni>10000/7.5){
+                     cout<<endl<<endl;            
+					 cout<<k.ime<<"  "<<k.prezime<<"  ";
+					 switch(k.d){
+							case 1: cout<<" uplata"; break;
+							case 2: cout<<" isplata"; break;
+							case 3: cout<<" placanje racuna"; break;
+							case 4: cout<<" kredit: "; break;     
+								 }
+						cout<<"  ";		 
+					 switch (k.c) {
+							case 1: cout<<" umirovljenik"; break;
+							case 2: cout<<" invalid"; break;
+							case 3: cout<<" trudnica"; break;
+							case 4: cout<<" VIP klijent"; break;
+							case 5: cout<<" ostali klijenti"; break;
+							case 6: cout<<" nije klijent"; break;
+							}
+							
+					 cout<<"  "<<"stanje deviznog: "<<k.devizni;
+					 cout<<"  "<<"stanje tekuceg: "<<k.tekuci<<endl;
+					 cout<<endl;
+			}
+	}
+}
+     
+
+void ispis(red a,int n) {
+     cout<<"ISPIS: prioritet----ime----prezime----datum----tekuci----devizni"<<endl; 
+     
+     for(int i=0;i<n;i++) {
+             elem k = FrontQ(a);
+             cout<<"      ";
+             switch(k.c) {
+                         case 1: cout<<"Umirovljenik "; break;
+                         case 2: cout<<"Invalid "; break;
+                         case 3: cout<<"Trudnica "; break;
+                         case 4: cout<<"VIP klijent "; break;
+                         case 5: cout<<"Ostali klijent "; break;
+                         case 6: cout<<"Nije klijent "; break;
+                         }
+             cout<<k.prezime<<"  "<<k.ime<<"  "<<k.datum<<" "<<k.tekuci<<" HRK"<<" "<<k.devizni<<" EUR"<<"  ";
+             
+             switch (k.d) {
+                    case 1: cout<<"uplata"<<endl; break;
+                    case 2: cout<<"isplata"<<endl; break;
+                    case 3: cout<<"placanje racuna"<<endl; break;
+                    case 4: cout<<"krediti"<<endl; break;
+                    
+                    }
+               cout<<endl;     
+             DeQueueQ(a);
+             EnQueueQ(k,a);
+             }
+     }
+
+     
+void sort(elem p[],int n) {
+     for(int i=n-1;i>0;i--)
+             for(int j=0;j<i;j++) 
+                     if(p[j].c>p[i].c) {
+                                       elem pom=p[j];
+                                       p[j]=p[i];
+                                       p[i]=pom;
+                                       }
+                                       }
+     
+void brzi_salter(){
+     elem pom[racuni];
+     int z=0;
+     
+     while(!IsEmptyQ(q)) {
+         elem k = FrontQ(q);
+         DeQueueQ(q);
+         if(k.d==3) {
+                    pom[z++]=k;
+                    n--;
+                    }
+         else EnQueueQ(k,salter);     
+         }
+     
+     sort(pom,z);
+     for(int i=0;i<z;i++) EnQueueQ(pom[i],brzi);
+     
+     cout<<"Brzi salter: "<<endl;;
+     if(IsEmptyQ(brzi)) cout<<"Nema nikoga za brzi salter."<<endl;
+     else ispis(brzi,racuni);
+             
+     InitQ(brzi);
+     
+     while(!IsEmptyQ(salter)) {
+          elem k = FrontQ(salter);
+          DeQueueQ(salter);
+          EnQueueQ(k,q);
+          }
+     
+     cout<<"Glavni salter: "<<endl;
+     if(IsEmptyQ(q)) cout<<"Nema nikoga na glavnom salteru."<<endl;
+     else ispis(q,n);        
+     }      
+  
+void brisi(){
+      
+     for(int i=0; i<n; i++) {
+             
+             elem k = FrontQ(q);
+             if((k.c==4 && k.datum>1982 && k.d==1 && k.tekuci<100)||(k.c==1 && k.d==2 && k.tekuci>5000) ) 
+             {                                                
+             DeQueueQ(q);
+             n--;
+             }
+             else {
+                  DeQueueQ(q);
+                  EnQueueQ(k,q); 
+                  }                                                                 
+             }
+     cout<<"Red: "<<endl;
+     ispis(q,n);
+     
+     }
+
+int main() {
+    int izbor;
+    srand(time(0));
+    rand();
+    
+    InitQ(q);
+    InitQ(salter);
+    InitQ(brzi);
+
+    
+    do {
+        cout<<"Izbornik"<<endl;
+        cout<<"1. Generiranje klijenata"<<endl;    
+        cout<<"2. Dodavanje zapisa o klijentima"<<endl;
+        cout<<"3. Red brzih transakcija"<<endl;
+        cout<<"4. Brisanje VIP klijenata i umirovljenika"<<endl;
+        cout<<"9. Izlaz"<<endl;       
+        cin>>izbor;
+        cout<<endl<<endl;
+        switch(izbor) {
+                      case 1: generiraj(); break;
+                      case 2: dodavanje_zapisa(); break;
+                      case 3: brzi_salter(); break;
+                      case 4: brisi(); break;
+                      }
+        }while(izbor!=9);
+    
+    system("pause");
+    return 0;
+    }
