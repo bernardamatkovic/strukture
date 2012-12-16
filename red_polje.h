@@ -17,10 +17,10 @@ int AddOne(int n) {
     }
     
 elem FrontQ(que& q) {
-     if(AddOne(q.rear)==q.front) {
-                                 system("pause");
-                                 exit(0);
-                                 }
+     if(AddOne(q.rear)==q.front)
+       system("pause");
+       exit(0);
+                     }
      return q.klijent[q.front];
      }
      
