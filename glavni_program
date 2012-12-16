@@ -27,20 +27,20 @@ void generiraj (){
      if (k.d==3) racuni++;
      
      switch(k.c){
-                 case 1: cout<<"umirovljenik"<<endl; 
-                 break;
-                 case 2: cout<<"invalid"<<endl;
-                 break;
-                 case 3: cout<<"trudnica"<<endl;
-                 break;
-                 case 4: cout<<"VIP klijent"<<endl;
-                 break;
-                 case 5: cout<<"ostali klijenti"<<endl;
-                 break;
-                 case 6: cout<<"nije klijent"<<endl;
-                 break;
+         case 1: cout<<"umirovljenik"<<endl; 
+         break;
+         case 2: cout<<"invalid"<<endl;
+         break;
+         case 3: cout<<"trudnica"<<endl;
+         break;
+         case 4: cout<<"VIP klijent"<<endl;
+         break;
+         case 5: cout<<"ostali klijenti"<<endl;
+         break;
+         case 6: cout<<"nije klijent"<<endl;
+         break;
                  }
-    EnQueueQ(k, q);
+	  EnQueueQ(k, q);
      }
      cout<<endl<<endl;
 }
@@ -64,88 +64,88 @@ void dodavanje_zapisa (){
 		 DeQueueQ(salter);
 		 EnQueueQ(k, q);
 		 if(k.devizni>10000/7.5){
-                     cout<<endl<<endl;            
-					 cout<<k.ime<<"  "<<k.prezime<<"  ";
-					 switch(k.d){
-							case 1: cout<<" uplata"; break;
-							case 2: cout<<" isplata"; break;
-							case 3: cout<<" placanje racuna"; break;
-							case 4: cout<<" kredit: "; break;     
-								 }
-						cout<<"  ";		 
-					 switch (k.c) {
-							case 1: cout<<" umirovljenik"; break;
-							case 2: cout<<" invalid"; break;
-							case 3: cout<<" trudnica"; break;
-							case 4: cout<<" VIP klijent"; break;
-							case 5: cout<<" ostali klijenti"; break;
-							case 6: cout<<" nije klijent"; break;
-							}
-							
-					 cout<<"  "<<"stanje deviznog: "<<k.devizni;
-					 cout<<"  "<<"stanje tekuceg: "<<k.tekuci<<endl;
-					 cout<<endl;
+             cout<<endl<<endl;            
+			 cout<<k.ime<<"  "<<k.prezime<<"  ";
+			 switch(k.d){
+					case 1: cout<<" uplata"; break;
+					case 2: cout<<" isplata"; break;
+					case 3: cout<<" placanje racuna"; break;
+					case 4: cout<<" kredit: "; break;     
+						 }
+				cout<<"  ";		 
+			 switch (k.c) {
+					case 1: cout<<" umirovljenik"; break;
+					case 2: cout<<" invalid"; break;
+					case 3: cout<<" trudnica"; break;
+					case 4: cout<<" VIP klijent"; break;
+					case 5: cout<<" ostali klijenti"; break;
+					case 6: cout<<" nije klijent"; break;
+					}
+					
+			 cout<<"  "<<"stanje deviznog: "<<k.devizni;
+			 cout<<"  "<<"stanje tekuceg: "<<k.tekuci<<endl;
+			 cout<<endl;
 			}
 	}
 }
      
 
 void ispis(red a,int n) {
-     cout<<"ISPIS: prioritet----ime----prezime----datum----tekuci----devizni"<<endl; 
+     cout<<"ISPIS: prioritet----ime----prezime----datum----tekuci----devizni  "<<endl; 
      
      for(int i=0;i<n;i++) {
-             elem k = FrontQ(a);
-             cout<<"      ";
-             switch(k.c) {
-                         case 1: cout<<"Umirovljenik "; break;
-                         case 2: cout<<"Invalid "; break;
-                         case 3: cout<<"Trudnica "; break;
-                         case 4: cout<<"VIP klijent "; break;
-                         case 5: cout<<"Ostali klijent "; break;
-                         case 6: cout<<"Nije klijent "; break;
-                         }
-             cout<<k.prezime<<"  "<<k.ime<<"  "<<k.datum<<" "<<k.tekuci<<" HRK"<<" "<<k.devizni<<" EUR"<<"  ";
-             
-             switch (k.d) {
-                    case 1: cout<<"uplata"<<endl; break;
-                    case 2: cout<<"isplata"<<endl; break;
-                    case 3: cout<<"placanje racuna"<<endl; break;
-                    case 4: cout<<"krediti"<<endl; break;
-                    
-                    }
-               cout<<endl;     
-             DeQueueQ(a);
-             EnQueueQ(k,a);
-             }
+         elem k = FrontQ(a);
+         cout<<"      ";
+         switch(k.c) {
+             case 1: cout<<"Umirovljenik "; break;
+             case 2: cout<<"Invalid "; break;
+             case 3: cout<<"Trudnica "; break;
+             case 4: cout<<"VIP klijent "; break;
+             case 5: cout<<"Ostali klijent "; break;
+             case 6: cout<<"Nije klijent "; break;
+                     }
+         cout<<k.prezime<<"  "<<k.ime<<"  "<<k.datum<<" "<<k.tekuci<<" HRK"<<" "<<k.devizni<<" EUR"<<"  ";
+         
+         switch (k.d) {
+            case 1: cout<<"uplata"<<endl; break;
+            case 2: cout<<"isplata"<<endl; break;
+            case 3: cout<<"placanje racuna"<<endl; break;
+            case 4: cout<<"krediti"<<endl; break;
+                
+                }
+           cout<<endl;     
+         DeQueueQ(a);
+         EnQueueQ(k,a);
+         }
      }
 
      
 void prioritet(elem p[],int n) {
      for(int i=n-1;i>0;i--)
-             for(int j=0;j<i;j++) 
-                     if(p[j].c>p[i].c) {
-                                       elem pom=p[j];
-                                       p[j]=p[i];
-                                       p[i]=pom;
-                                       }
-                                       }
-     
+         for(int j=0;j<i;j++) 
+             if(p[j].c>p[i].c) {
+                   elem pom=p[j];
+                   p[j]=p[i];
+                   p[i]=pom;}
+                   }
+                   
+
 void brzi_salter(){
-     elem pom[racuni];
+     elem pomocni[racuni];
      int z=0;
      
      while(!IsEmptyQ(q)) {
          elem k = FrontQ(q);
          DeQueueQ(q);
          if(k.d==3) {
-                    pom[z++]=k;
-                    n--;
-                    }
+            pomocni[z++]=k;
+            n--;
+            }
          else EnQueueQ(k,salter);     
          }
      
-     prioritet(pom,z);
-     for(int i=0;i<z;i++) EnQueueQ(pom[i],brzi);
+     prioritet(pomocni,z);
+     for(int i=0;i<z;i++) EnQueueQ(pomocni[i],brzi);
      
      cout<<"Brzi salter: "<<endl;;
      if(IsEmptyQ(brzi)) cout<<"Nema nikoga za brzom salteru."<<endl;
